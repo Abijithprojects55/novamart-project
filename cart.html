@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="grid" style="grid-template-columns: 2fr 1fr; gap:16px;">
+    <div class="card card-pad">
+      <h1 class="h1">Your Cart</h1>
+      <p class="sub">Review items before checkout</p>
+
+      {% if items|length == 0 %}
+        <div class="flash error" style="margin-top:16px;">Your cart is empty.</div>
+      {% else %}
+        <div style="margin-top:14px; display:grid; gap:12px;">
+          {% for item in items %}
+            <div class="card" style="padding:14px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:800;">{{ item.p.name }}</div>
+                <div class="muted" style="margin-top:4px;">
+                  ${{ '%.2f'|format(item.p.price) }} × {{ item.qty }}
+                </div>
+              </div>
+
+              <form method="POST" action="{{ url_for('cart_remove') }}">
+                <input type="hidden" name="product_id" value="{{ item.p.id }}">
+                <button class="btn btn-danger">Remove</button>
+              </form>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="card card-pad">
+      <h2 style="margin:0; font-size:18px;">Order Summary</h2>
+      <p class="sub">Total amount</p>
+
+      <div style="display:flex; justify-content:space-between; margin-top:12px;">
+        <span class="muted">Total</span>
+        <span class="price">${{ '%.2f'|format(total) }}</span>
+      </div>
+
+      <form method="POST" action="{{ url_for('checkout') }}" style="margin-top:14px;">
+        <button class="btn btn-primary" style="width:100%;" {% if items|length == 0 %}disabled style="opacity:.5; cursor:not-allowed"{% endif %}>
+          Checkout
+        </button>
+      </form>
+
+      <a class="btn" style="width:100%; margin-top:10px; text-align:center;" href="{{ url_for('products') }}">
+        Continue shopping
+      </a>
+    </div>
+  </div>
+{% endblock %}
