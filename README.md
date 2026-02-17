@@ -1,6 +1,9 @@
 # NovaMart — Flask E-Commerce (Personal Project)
 
 A full-stack mini e-commerce application built with Flask + SQLAlchemy.
+Note: This project is hosted on Render free tier. 
+The service may take 30–60 seconds to wake up on first visit due to cold start.
+
 
 ## Features
 - User authentication (Register/Login/Logout) using Flask-Login
@@ -23,3 +26,4 @@ python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 python app.py
+
