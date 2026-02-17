@@ -339,10 +339,15 @@ def orders():
 
 # ✅ Ensure DB is initialized when the app is imported (gunicorn)
 init_db_once()
+@app.before_request
+def _ensure_db():
+    init_db_once()
+
 
 if __name__ == "__main__":
     # Render (and most hosts) provide PORT; bind to 0.0.0.0 so it’s publicly reachable
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
+
 
 
