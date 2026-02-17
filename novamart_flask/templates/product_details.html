@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="card card-pad">
+    <h1 class="h1">{{ p.name }}</h1>
+
+    {% if p.image_url %}
+      <img src="{{ p.image_url }}" alt="{{ p.name }}" style="width:100%; max-height:300px; object-fit:cover; border-radius:12px;">
+    {% endif %}
+
+    <p class="muted" style="margin-top:12px;">
+      {{ p.description }}
+    </p>
+
+    <p style="margin-top:10px;">
+      Price: ${{ '%.2f'|format(p.price) }}
+    </p>
+
+    <p>
+      Stock: {{ p.stock }}
+    </p>
+
+    <form method="post" action="{{ url_for('cart_add') }}" style="margin-top:15px;">
+      <input type="hidden" name="product_id" value="{{ p.id }}">
+      <input type="number" name="quantity" value="1" min="1">
+      <button class="btn" type="submit">Add to Cart</button>
+    </form>
+
+    <div style="margin-top:20px;">
+      <a class="btn ghost" href="{{ url_for('products') }}">Back to Products</a>
+    </div>
+  </div>
+{% endblock %}
